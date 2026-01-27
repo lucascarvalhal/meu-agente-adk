@@ -8,9 +8,8 @@ logger = logging.getLogger(__name__)
 
 def traduzir_pensamento(callback_context: CallbackContext, llm_response: LlmResponse) -> Optional[LlmResponse]:
     """
-    Processa a resposta para manter formato limpo.
-    O Thought é interno do Gemini, não conseguimos traduzir via callback.
-    Mas garantimos que a resposta final seja limpa.
+    Processa a resposta para manter o formato o mais "clean" possível.
+    O "Thought" é interno do Gemini, então não foi achada ainda uma solução para traduzir ele diretamente sem callback.
     """
     if not llm_response.content or not llm_response.content.parts:
         return None

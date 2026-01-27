@@ -7,7 +7,7 @@ from google.adk.agents.invocation_context import InvocationContext
 from google.adk.events import Event
 from google.genai import types
 
-# Tool implementation
+# Tool
 def get_current_time(city: str) -> dict:
     """Retorna a hora atual em uma cidade específica."""
     return {"status": "success", "city": city, "time": "10:30 AM"}
@@ -68,7 +68,7 @@ class ThinkingAgent(BaseAgent):
             pensamento = ""
             resposta = full_response
             
-            # Tenta extrair PENSAMENTO e RESPOSTA
+            # Tenta extrair PENSAMENTO e também a RESPOSTA
             match_pensamento = re.search(
                 r'PENSAMENTO[:\s]*(.+?)(?=RESPOSTA[:\s]|$)', 
                 full_response, 
@@ -86,7 +86,7 @@ class ThinkingAgent(BaseAgent):
             if match_resposta:
                 resposta = match_resposta.group(1).strip()
             
-            # Evento 1: Pensamento (se existir)
+            # Evento 1: Pensamento
             if pensamento:
                 yield Event(
                     author=self.name,
