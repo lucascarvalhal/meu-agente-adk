@@ -47,28 +47,25 @@ class ThinkingAgent(BaseAgent):
         
         # Executa o LLM agent interno
         async for event in internal_llm.run_async(ctx):
-            # Se é uma chamada de função (tool), passa adiante
+            # OCULTA: Não faz yield de function calls (tool chamada)
             if event.get_function_calls():
-                yield event
-                continue
+                continue  # ← Mudou de "yield event" para "continue"
             
-            # Se é resposta de função (tool result), passa adiante
+            # OCULTA: Não faz yield de function responses (tool resultado)
             if event.get_function_responses():
-                yield event
-                continue
+                continue  # ← Mudou de "yield event" para "continue"
             
             # Acumula texto da resposta
             if event.content and event.content.parts:
                 for part in event.content.parts:
                     if part.text:
-                        full_response = part.text  # Pega o texto completo
+                        full_response = part.text
         
         # Processa a resposta final
         if full_response:
             pensamento = ""
             resposta = full_response
             
-            # Tenta extrair PENSAMENTO e também a RESPOSTA
             match_pensamento = re.search(
                 r'PENSAMENTO[:\s]*(.+?)(?=RESPOSTA[:\s]|$)', 
                 full_response, 
